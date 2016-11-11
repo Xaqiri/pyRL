@@ -107,21 +107,30 @@ class FOV():
             0.99939, 0.99985, 1.00000
         ] 
         self.visible_tiles = [] 
+        self.explored_tiles = [] 
         
-    def update(self, entities, items, vision_range, level): 
+    def update(self, entities=None, items=None, vision_range=5, level=None): 
         for i in self.visible_tiles: 
             try: 
                 i.visible = False 
             except: 
                 pass 
+        for i in self.explored_tiles: 
+            try: 
+                i.visible = False 
+            except: 
+                pass 
         self.visible_tiles = [] 
-        level[entities[0].pos_index[0]][entities[0].pos_index[1]].visible = True 
-        self.visible_tiles.append(level[entities[0].pos_index[0]][entities[0].pos_index[1]]) 
+        level[entities[0].x][entities[0].y].visible = True 
+        level[entities[0].x][entities[0].y].explored = True 
+        self.visible_tiles.append(level[entities[0].x][entities[0].y]) 
+        if level[entities[0].x][entities[0].y] not in self.explored_tiles: 
+            self.explored_tiles.append(level[entities[0].x][entities[0].y]) 
         for i in range(0, self.RAYS, self.STEP): 
             angle_x = self.sintable[i] 
             angle_y = self.costable[i] 
-            x = entities[0].pos_index[0] 
-            y = entities[0].pos_index[1] 
+            x = entities[0].x 
+            y = entities[0].y 
             for z in range(vision_range): 
                 x += angle_x 
                 y += angle_y 
@@ -129,7 +138,8 @@ class FOV():
                     level[int(round(x))][int(round(y))].visible = True 
                     level[int(round(x))][int(round(y))].explored = True 
                     self.visible_tiles.append(level[int(round(x))][int(round(y))]) 
-                    level[int(round(x))][int(round(y))].explored 
+                    if level[int(round(x))][int(round(y))] not in self.explored_tiles: 
+                        self.explored_tiles.append(level[int(round(x))][int(round(y))]) 
                     if level[int(round(x))][int(round(y))].blocks_sight: 
                         break 
                 except: 
