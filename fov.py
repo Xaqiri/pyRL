@@ -1,9 +1,9 @@
-import pygame as p 
+import pygame as p
 
-class FOV(): 
-    def __init__(self): 
-        self.RAYS = 360 
-        self.STEP = 3 
+class FOV():
+    def __init__(self):
+        self.RAYS = 360
+        self.STEP = 3
         self.sintable = [
             0.00000, 0.01745, 0.03490, 0.05234, 0.06976, 0.08716, 0.10453,
             0.12187, 0.13917, 0.15643, 0.17365, 0.19081, 0.20791, 0.22495, 0.24192,
@@ -75,7 +75,7 @@ class FOV():
             -0.54464, -0.55919, -0.57358, -0.58779, -0.60182, -0.61566, -0.62932,
             -0.64279, -0.65606, -0.66913, -0.68200, -0.69466, -0.70711, -0.71934,
             -0.73135, -0.74314, -0.75471, -0.76604, -0.77715, -0.78801, -0.79864,
-            -0.80902, -0.81915, -0.82904, -0.83867, -0.84805, -0.85717, -0.86603, 
+            -0.80902, -0.81915, -0.82904, -0.83867, -0.84805, -0.85717, -0.86603,
             -0.87462, -0.88295, -0.89101, -0.89879, -0.90631, -0.91355, -0.92050,
             -0.92718, -0.93358, -0.93969, -0.94552, -0.95106, -0.95630, -0.96126,
             -0.96593, -0.97030, -0.97437, -0.97815, -0.98163, -0.98481, -0.98769,
@@ -105,42 +105,41 @@ class FOV():
             0.95106, 0.95630, 0.96126, 0.96593, 0.97030, 0.97437, 0.97815, 0.98163,
             0.98481, 0.98769, 0.99027, 0.99255, 0.99452, 0.99619, 0.99756, 0.99863,
             0.99939, 0.99985, 1.00000
-        ] 
-        self.visible_tiles = [] 
-        self.explored_tiles = [] 
-        
-    def update(self, entities=None, items=None, vision_range=5, level=None): 
-        for i in self.visible_tiles: 
-            try: 
-                i.visible = False 
-            except: 
-                pass 
-        for i in self.explored_tiles: 
-            try: 
-                i.visible = False 
-            except: 
-                pass 
-        self.visible_tiles = [] 
-        level[entities[0].x][entities[0].y].visible = True 
-        level[entities[0].x][entities[0].y].explored = True 
-        self.visible_tiles.append(level[entities[0].x][entities[0].y]) 
-        if level[entities[0].x][entities[0].y] not in self.explored_tiles: 
-            self.explored_tiles.append(level[entities[0].x][entities[0].y]) 
-        for i in range(0, self.RAYS, self.STEP): 
-            angle_x = self.sintable[i] 
-            angle_y = self.costable[i] 
-            x = entities[0].x 
-            y = entities[0].y 
-            for z in range(vision_range): 
-                x += angle_x 
-                y += angle_y 
-                try: 
-                    level[int(round(x))][int(round(y))].visible = True 
-                    level[int(round(x))][int(round(y))].explored = True 
-                    self.visible_tiles.append(level[int(round(x))][int(round(y))]) 
-                    if level[int(round(x))][int(round(y))] not in self.explored_tiles: 
-                        self.explored_tiles.append(level[int(round(x))][int(round(y))]) 
-                    if level[int(round(x))][int(round(y))].blocks_sight: 
-                        break 
-                except: 
-                    pass 
+        ]
+        self.visible_tiles = []
+        self.explored_tiles = []
+
+    def update(self, entities=None, items=None, vision_range=5, level=None):
+        '''for i in self.visible_tiles:
+            try:
+                i.visible = False
+            except:
+                pass
+        for i in self.explored_tiles:
+            try:
+                i.visible = False
+            except:
+                pass'''
+        self.visible_tiles = []
+        self.visible_tiles.append((entities[0].x, entities[0].y))
+        #if level[entities[0].x][entities[0].y] not in self.explored_tiles:
+        #    self.explored_tiles.append(level[entities[0].x][entities[0].y])
+        for i in range(0, self.RAYS, self.STEP):
+            angle_x = self.sintable[i]
+            angle_y = self.costable[i]
+            x = entities[0].x
+            y = entities[0].y
+            for z in range(vision_range):
+                x += angle_x
+                y += angle_y
+                self.visible_tiles.append((int(round(x)), int(round(y))))
+
+
+                try:
+                    tile = int(round(x)),int(round(y))
+                    if tile not in self.explored_tiles and tile != (entities[0].x, entities[0].y):
+                        self.explored_tiles.append((int(round(x)), int(round(y))))
+                except:
+                    pass
+                if level[int(round(x))][int(round(y))] == 1:
+                    break
