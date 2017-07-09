@@ -1,7 +1,7 @@
 import pygame as p
 
 class FOV():
-    def __init__(self):
+    def __init__(self, vision_range=5):
         self.RAYS = 360
         self.STEP = 3
         self.sintable = [
@@ -108,8 +108,9 @@ class FOV():
         ]
         self.visible_tiles = []
         self.explored_tiles = []
+        self.vision_range = vision_range
 
-    def update(self, entities=None, items=None, vision_range=5, level=None):
+    def update(self, entities=None, items=None, level=None):
         '''for i in self.visible_tiles:
             try:
                 i.visible = False
@@ -129,7 +130,7 @@ class FOV():
             angle_y = self.costable[i]
             x = entities[0].x
             y = entities[0].y
-            for z in range(vision_range):
+            for z in range(self.vision_range):
                 x += angle_x
                 y += angle_y
                 tile = int(round(x)),int(round(y))
@@ -138,6 +139,7 @@ class FOV():
 
 
                 try:
+                    #tile = int(round(x)),int(round(y))
                     if tile not in self.explored_tiles and tile != (entities[0].x, entities[0].y):
                         self.explored_tiles.append(tile)
                 except:
