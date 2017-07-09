@@ -132,13 +132,14 @@ class FOV():
             for z in range(vision_range):
                 x += angle_x
                 y += angle_y
-                self.visible_tiles.append((int(round(x)), int(round(y))))
+                tile = int(round(x)),int(round(y))
+                if tile not in self.visible_tiles:
+                    self.visible_tiles.append(tile)
 
 
                 try:
-                    tile = int(round(x)),int(round(y))
                     if tile not in self.explored_tiles and tile != (entities[0].x, entities[0].y):
-                        self.explored_tiles.append((int(round(x)), int(round(y))))
+                        self.explored_tiles.append(tile)
                 except:
                     pass
                 if level[int(round(x))][int(round(y))] == 1:
