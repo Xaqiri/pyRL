@@ -10,6 +10,7 @@ class Colors():
     DRK_YELLOW  =   (100,   100,      0)
     CYAN        =   (0,     255,    255)
     PURPLE      =   (255,   0,      255)
+    DRK_PURPLE  =   (100,   0,      100)
     BLU_GRY     =   (50,    50,     150)
     GRAY        =   (100,   100,    100)
     DRK_GRAY    =   (50,    50,      50)
