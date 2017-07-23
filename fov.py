@@ -1,7 +1,7 @@
 import pygame as p
 
 class FOV():
-    def __init__(self, vision_range=5):
+    def __init__(self, vision_range=5, level_width=0, level_height=0, fov_mode='unexplored'):
         self.RAYS = 360
         self.STEP = 3
         self.sintable = [
@@ -106,6 +106,15 @@ class FOV():
             0.98481, 0.98769, 0.99027, 0.99255, 0.99452, 0.99619, 0.99756, 0.99863,
             0.99939, 0.99985, 1.00000
         ]
+        self.level_dimensions = (level_width, level_height)
+        self.fov_mode = fov_mode
+        self.visible_tiles = []
+        if fov_mode == 'unexplored':
+            self.explored_tiles = [[0]*level_height for x in range(level_width)]
+        elif fov_mode == 'explored':
+            self.explored_tiles = [[1]*level_height for x in range(level_width)]
+        else:
+            print('Fov mode not set')
         self.visible_tiles = []
         self.explored_tiles = []
         self.vision_range = vision_range
