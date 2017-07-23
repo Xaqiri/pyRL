@@ -115,9 +115,16 @@ class FOV():
             self.explored_tiles = [[1]*level_height for x in range(level_width)]
         else:
             print('Fov mode not set')
-        self.visible_tiles = []
-        self.explored_tiles = []
         self.vision_range = vision_range
+
+    def clear(self):
+        self.visible_tiles = []
+        if self.fov_mode == 'unexplored':
+            self.explored_tiles = [[0]*self.level_dimensions[1] for x in range(self.level_dimensions[0])]
+        elif self.fov_mode == 'explored':
+            self.explored_tiles = [[1]*self.level_dimensions[1] for x in range(self.level_dimensions[0])]
+        else:
+            print('Fov mode not set')
 
     def update(self, entities=None, items=None, level=None):
         '''for i in self.visible_tiles:
@@ -148,9 +155,8 @@ class FOV():
 
 
                 try:
-                    #tile = int(round(x)),int(round(y))
-                    if tile not in self.explored_tiles and tile != (entities[0].x, entities[0].y):
-                        self.explored_tiles.append(tile)
+                    if self.explored_tiles[tile[0]][tile[1]] == 0 and tile != (entities[0].x, entities[0].y):
+                        self.explored_tiles[tile[0]][tile[1]] = 1
                 except:
                     pass
                 if level[int(round(x))][int(round(y))] == 1:
