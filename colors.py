@@ -14,6 +14,6 @@ class Colors():
     BLU_GRY     =   (50,    50,     150)
     GRAY        =   (100,   100,    100)
     DRK_GRAY    =   (50,    50,      50)
-    DRKR_GRAY   =   (25,    25,      25)
+    DRKR_GRAY   =   (15,    15,      15)
     BLACK       =   (0,     0,        0)
     TRANS       =   (255,   0,      255)
