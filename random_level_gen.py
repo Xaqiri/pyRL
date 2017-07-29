@@ -23,6 +23,7 @@ class RandomLevelGen():
         self.max_rooms = max_rooms
         self.level_width = level_width
         self.level_height = level_height
+        self.size = level_width, level_height
         self.explored_wall = colors.Colors.BLUE#colors.Colors.DRK_BLUE
         self.visible_wall = colors.Colors.GRAY
         self.explored_floor = colors.Colors.BLU_GRY
