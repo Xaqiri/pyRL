@@ -4,7 +4,7 @@ import colors
 import rect
 
 class RandomLevelGen():
-    def __init__(self, room_min_size=1, room_max_size=5, max_rooms=20, level_width=0, level_height=0, level_font=None, tile_size=16, sprites=None):
+    def __init__(self, room_min_size=1, room_max_size=5, max_rooms=20, level_width=0, level_height=0, level_font=None, tile_size=16, sprites=None, entities=[]):
         """ Generates a random level
             Takes parameters:
                 ints:
@@ -17,7 +17,9 @@ class RandomLevelGen():
                 string:
                     level_font
                 sprite array:
-                    sprites """
+                    sprites
+                object array:
+                    entities """
         self.room_min_size = room_min_size
         self.room_max_size = room_max_size
         self.max_rooms = max_rooms
@@ -33,6 +35,7 @@ class RandomLevelGen():
         self.sprites = sprites
         self.level = [[1]*level_height for x in range(level_width)]
         self.rooms = []
+        self.entities = entities
 
     def create_room(self, room):
         for x in range(room.x1, room.x2):
@@ -47,7 +50,7 @@ class RandomLevelGen():
         for y in range(min(y1, y2), max(y1, y2) + 1):
             self.level[x][y] = 0
 
-    def make_level(self, entities=None, items=None):
+    def make_level(self, items=None, MAX_ENEMIES_PER_ROOM=0):
         #self.rooms = []
         num_rooms = 0
         for r in range(self.max_rooms):
@@ -66,8 +69,8 @@ class RandomLevelGen():
                 (new_x, new_y) = new_room.center()
                 if num_rooms == 0:
                     try:
-                        entities[0].x = new_x
-                        entities[0].y = new_y
+                        self.entities[0].x = new_x
+                        self.entities[0].y = new_y
                     except:
                         print('No entities')
                         pass
@@ -86,6 +89,13 @@ class RandomLevelGen():
                         self.create_v_tunnel(prev_y, new_y, prev_x)
                         self.create_h_tunnel(prev_x, new_x, new_y)
                 self.rooms.append(new_room)
+                if MAX_ENEMIES_PER_ROOM != 0:
+                    for i in range(MAX_ENEMIES_PER_ROOM):
+                        x_coord = random.randint(x+1, x+w-1)
+                        y_coord = random.randint(y+1, y+h-1)
+                        if not (x_coord, y_coord) in self.entities:
+                            self.entities.append((x_coord, y_coord))
+
+
                 num_rooms += 1
         #stairs = Tile(pos=(new_x, new_y), ascii_tile='>', font=self.level_font, tile_size=self.tile_size, walkable=True, visible_color=pyRL.colors.Colors.WHITE, explored_color=pyRL.colors.Colors.WHITE, sprites=None)
-        return [entities[0].x, entities[0].y]

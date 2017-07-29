@@ -17,3 +17,4 @@ class Colors():
     DRKR_GRAY   =   (15,    15,      15)
     BLACK       =   (0,     0,        0)
     TRANS       =   (255,   0,      255)
+    BROWN       =   (150,   110,     50)
