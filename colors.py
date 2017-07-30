@@ -2,6 +2,7 @@ class Colors():
     WHITE       =   (255,   255,    255)
     RED         =   (255,   0,        0)
     DRK_RED     =   (100,   0,        0)
+    DRKR_RED    =   (50,    0,        0)
     GREEN       =   (0,     255,      0)
     DRK_GREEN   =   (0,     100,      0)
     BLUE        =   (0,     0,      255)
